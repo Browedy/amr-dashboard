@@ -8,9 +8,10 @@ source.include_exts = py
 
 version = 1.0
 
-requirements = python3,kivy==2.2.1,requests,certifi,urllib3,charset-normalizer,idna
-android.skip_update = False
+requirements = python3,kivy,requests
+
 p4a.bootstrap = sdl2
+
 orientation = landscape
 fullscreen = 0
 
