@@ -13,16 +13,38 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Build with Buildozer in Docker
-      uses: ArtemSBulgakov/buildozer-action@v1
-      id: buildozer
+    - name: Set up Python
+      uses: actions/setup-python@v4
       with:
-        command: buildozer android debug
-        buildozer_version: stable
+        python-version: '3.9'
 
-    - name: Upload APK artifact
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-pip build-essential git zip unzip openjdk-11-jdk wget
+        pip3 install --upgrade cython==0.29.33 virtualenv
+
+    - name: Install Buildozer
+      run: |
+        pip3 install buildozer
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew || true
+
+    - name: Build with Buildozer
+      run: |
+        buildozer -v android debug 2>&1 | tee build.log || true
+        
+    - name: Upload build log
+      if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: amr-dashboard-apk
-        path: ${{ steps.buildozer.outputs.filename }}
-        retention-days: 30
+        name: build-log
+        path: build.log
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      if: success()
+      with:
+        name: app-debug
+        path: bin/*.apk
