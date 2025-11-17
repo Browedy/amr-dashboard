@@ -45,12 +45,27 @@ jobs:
     - name: Install buildozer and dependencies
       run: |
         pip3 install --upgrade pip
-        pip3 install --upgrade buildozer cython==0.29.36
+        pip3 install --upgrade wheel
+        pip3 install --upgrade cython==0.29.36
+        pip3 install --upgrade buildozer
         pip3 install --upgrade colorama appdirs sh jinja2 six
 
+    - name: Cache Buildozer
+      uses: actions/cache@v3
+      with:
+        path: |
+          .buildozer
+        key: ${{ runner.os }}-buildozer-${{ hashFiles('buildozer.spec') }}
+
+    - name: Setup Android environment
+      run: |
+        export USE_SDK_WRAPPER=1
+        export ANDROID_SDK_ROOT=$HOME/.android/sdk
+        
     - name: Build with Buildozer
       run: |
-        buildozer android debug
+        yes | buildozer android debug
+      continue-on-error: false
 
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
