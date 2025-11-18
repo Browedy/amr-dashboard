@@ -8,10 +8,10 @@ source.include_exts = py
 
 version = 1.0
 
-requirements = python3==3.9.9,hostpython3==3.9.9,kivy==2.1.0,requests==2.28.1,certifi,charset-normalizer,idna,urllib3
+requirements = python3,kivy==2.1.0,requests
 
 p4a.bootstrap = sdl2
-p4a.branch = develop
+p4a.branch = master
 p4a.source_dir = 
 
 orientation = landscape
