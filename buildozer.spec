@@ -6,7 +6,7 @@ package.domain = org.nal
 source.dir = .
 source.include_exts = py
 
-version = 1.0
+version = 1.1
 
 requirements = python3,kivy,requests
 
