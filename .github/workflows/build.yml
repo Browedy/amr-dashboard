@@ -7,34 +7,24 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
-    - name: Checkout code
+    - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
-
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y python3-pip build-essential git zip unzip openjdk-11-jdk wget
-        pip3 install --upgrade cython==0.29.33 virtualenv
-
-    - name: Install Buildozer
-      run: |
-        pip3 install buildozer
-
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew || true
-
     - name: Build with Buildozer
-      run: |
-        buildozer -v android debug 2>&1 | tee build.log || true
-        
+      uses: ArtemSBulgakov/buildozer-action@v1
+      id: buildozer
+      with:
+        workdir: .
+        buildozer_version: stable
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: package
+        path: ${{ steps.buildozer.outputs.filename }}        
     - name: Upload build log
       if: always()
       uses: actions/upload-artifact@v4
