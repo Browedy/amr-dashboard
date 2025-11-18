@@ -20,7 +20,7 @@ fullscreen = 0
 android.permissions = INTERNET,ACCESS_NETWORK_STATE,ACCESS_WIFI_STATE
 android.api = 29
 android.minapi = 21
-android.ndk = 23b
+android.ndk = 25
 android.accept_sdk_license = True
 android.archs = armeabi-v7a
 
