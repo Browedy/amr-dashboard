@@ -36,33 +36,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: package
-          path: ${{ steps.buildozer.outputs.filename        cd $ANDROID_SDK_ROOT
-        wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
-        unzip -q commandlinetools-linux-9477386_latest.zip
-        mkdir -p cmdline-tools/latest
-        mv cmdline-tools/* cmdline-tools/latest/ 2>/dev/null || true
-        export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin
-        yes | sdkmanager --licenses || echo "Licenses accepted"
-        sdkmanager "build-tools;33.0.0" "platform-tools" "platforms;android-31"
-    
-    - name: Set Android environment
-      run: |
-        echo "ANDROID_SDK_ROOT=$HOME/.android/sdk" >> $GITHUB_ENV
-        echo "$HOME/.android/sdk/cmdline-tools/latest/bin" >> $GITHUB_PATH
-        
-    - name: Build APK
-      run: |
-        export ANDROID_HOME=$HOME/.android/sdk
-        export ANDROID_SDK_ROOT=$HOME/.android/sdk
-        buildozer android debug || echo "Build may have warnings"
-      
-    - name: Find APK
-      run: |
-        find . -name "*.apk" -type f
-        
-    - name: Upload APK
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: apk
-        path: "**/*.apk"
+          path: ${{ steps.buildozer.outputs.filename }}
