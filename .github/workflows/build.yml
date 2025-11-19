@@ -31,7 +31,7 @@ jobs:
         pip install buildozer
         
     - name: Accept Android SDK licenses
-       run: |
+      run: |
          yes | sdkmanager --licenses || true
          sdkmanager "build-tools;33.0.0" "platform-tools" "platforms;android-31" || true 
          
